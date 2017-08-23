@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Load More</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+    <div>
+        <div id="row1" class="row" data-lm-row="list1">This is List 1 row 1</div>
+        <div id="row2" class="row" data-lm-row="list1">This is List 1 row 2</div>
+        <div id="row3" class="row" data-lm-row="list1">This is List 1 row 3</div>
+        <div id="row4" class="row" data-lm-row="list1">This is List 1 row 4</div>
+        <div id="row5" class="row" data-lm-row="list1">This is List 1 row 5</div>
+        <div id="row6" class="row" data-lm-row="list1">This is List 1 row 6</div>
+        <div id="row7" class="row" data-lm-row="list1">This is List 1 row 7</div>
+        <div id="row8" class="row" data-lm-row="list1">This is List 1 row 8</div>
+    </div>
+    <br>
+    <div class="load-more-btn">
+        <a data-lm="link" data-lm-default-rows="5" data-lm-for="list1" data-lm-isactive="false" href="javascript:void(0)">
+           Load More
+        </a>
+    </div>
+    <hr>
+    <div>
+        <div id="row1" class="row" data-lm-row="list2">This is List 2 row 1</div>
+        <div id="row2" class="row" data-lm-row="list2">This is List 2 row 2</div>
+        <div id="row3" class="row" data-lm-row="list2">This is List 2 row 3</div>
+        <div id="row4" class="row" data-lm-row="list2">This is List 2 row 4</div>
+        <div id="row5" class="row" data-lm-row="list2">This is List 2 row 5</div>
+        <div id="row6" class="row" data-lm-row="list2">This is List 2 row 6</div>
+        <div id="row7" class="row" data-lm-row="list2">This is List 2 row 7</div>
+        <div id="row8" class="row" data-lm-row="list2">This is List 2 row 8</div>
+    </div>
+    <br>
+    <div class="load-more-btn">
+        <a data-lm="link" data-lm-default-rows="3" data-lm-for="list2" data-lm-isactive="false" href="javascript:void(0)">
+           Load More
+        </a>
+    </div>
+       <hr>
+    <div>
+        <div id="row1" class="row" data-lm-row="list3">This is List 3 row 1</div>
+        <div id="row2" class="row" data-lm-row="list3">This is List 3 row 2</div>
+        <div id="row3" class="row" data-lm-row="list3">This is List 3 row 3</div>
+        <div id="row4" class="row" data-lm-row="list3">This is List 3 row 4</div>
+        <div id="row5" class="row" data-lm-row="list3">This is List 3 row 5</div>
+        <div id="row6" class="row" data-lm-row="list3">This is List 3 row 6</div>
+        <div id="row7" class="row" data-lm-row="list3">This is List 3 row 7</div>
+        <div id="row8" class="row" data-lm-row="list3">This is List 3 row 8</div>
+    </div>
+    <br>
+    <div class="load-more-btn">
+        <a data-lm="link" data-lm-default-rows="10" data-lm-for="list3" data-lm-isactive="false" href="javascript:void(0)">
+           Load More
+        </a>
+    </div>
+        
+    <script type="text/javascript">
+       
+        var lmLink = $('[data-lm="link"]');
+        if (lmLink.length) {
+            lmLink.each(function() {
+                var self = $(this);
+
+                var lmDefaultCount = self.attr('data-lm-default-rows') || 5;
+
+                var lmFor = self.attr('data-lm-for');
+                if (!lmFor) {
+                    console.error('Please set the [data-lm-for] attribute of link.');
+                }
+
+                var lmRows = $(''.concat('[data-lm-row="', lmFor, '"]'));
+                if (lmRows.length > lmDefaultCount) {
+                    lmRows.each(function(i, e) {
+                        if (i >= lmDefaultCount) {
+                            $(e).attr('style', 'display:none;');
+                        }
+                    })
+                } else {
+                    self.parent().attr('style', 'display:none;');
+                }
+
+                var lmIsActive = function() {
+                    return !(self.attr('data-lm-isactive') === 'false') || false;
+                }
+
+                self.on('click', function() {
+                    if (!lmIsActive()) {
+                        $(this).attr('data-lm-isactive', 'true').text('Load Less');
+                        lmRows.removeAttr('style');
+                    } else {
+                        $(this).attr('data-lm-isactive', 'false').text('Load More');
+                        lmRows.each(function(i, e) {
+                            if (i >= lmDefaultCount) {
+                                $(e).attr('style', 'display:none;');
+                            }
+                        })
+                    }
+                });
+
+            })
+        }
+
+    </script>
+
+</body>
+
+</html>
